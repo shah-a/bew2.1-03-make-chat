@@ -10,11 +10,12 @@ const io = new Server(server);
 
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
+app.set('views', join(__dirname, 'views'));
 
-app.use(express.static(join(__dirname, 'public')));
+app.use(express.static(join(__dirname, 'static')));
 
 app.get('/', (req, res) => {
-  res.render('index.handlebars');
+  res.render('home');
 })
 
 io.on("connection", (socket) => {
