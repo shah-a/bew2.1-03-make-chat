@@ -19,9 +19,11 @@ app.get('/', (req, res) => {
 })
 
 const onlineUsers = {};
+const channels = { "General": [] };
+
 io.on("connection", (socket) => {
   // console.log("🔌 New user connected! 🔌");
-  require('./sockets/chat')(io, socket, onlineUsers);
+  require('./sockets/chat')(io, socket, onlineUsers, channels);
 })
 
 server.listen('3000', () => {
