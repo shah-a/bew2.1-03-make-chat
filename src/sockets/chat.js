@@ -37,6 +37,14 @@ event_handlers = (io, socket, onlineUsers, channels) => {
       messages: channels[newChannel]
     });
   });
+
+  socket.on('user changed channel', (newChannel) => {
+    socket.join(newChannel);
+    socket.emit('user changed channel', {
+      channel: newChannel,
+      messages: channels[newChannel]
+    });
+  });
 };
 
 module.exports = event_handlers;

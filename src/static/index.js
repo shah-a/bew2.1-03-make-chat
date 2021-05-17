@@ -2,6 +2,13 @@ $(document).ready(() => {
   const socket = io.connect();
   socket.emit('get online users');
 
+  // Set "General" as default channel, and enable channel-switching
+  socket.emit('user changed channel', 'General');
+  $(document).on('click', '.channel', (e) => {
+    const newChannel = e.target.textContent;
+    socket.emit('user changed channel', newChannel);
+  });
+
   let currentUser;
 
   $('#create-user-btn').click((e) => {
@@ -80,7 +87,6 @@ $(document).ready(() => {
   });
 
   socket.on('user changed channel', (data) => {
-    console.log('are we here?')
     $('.channel-current').addClass('channel');
     $('.channel-current').removeClass('channel-current');
     $(`.channel:contains('${data.channel}')`).addClass('channel-current');
