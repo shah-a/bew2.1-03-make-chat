@@ -19,7 +19,8 @@ app.get('/', (req, res) => {
 })
 
 io.on("connection", (socket) => {
-  console.log("🔌 New user connected! 🔌");
+  // console.log("🔌 New user connected! 🔌");
+  require('./sockets/chat')(io, socket);
 })
 
 server.listen('3000', () => {
