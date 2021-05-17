@@ -19,12 +19,14 @@ $(document).ready(() => {
 
   $('#send-chat-btn').click((e) => {
     e.preventDefault();
+    const channel = $('.channel-current').text();
     const message = $('#chat-input').val();
     if (message.length > 0) {
       // Emit `new message` event to the server
       socket.emit('new message', {
         sender: currentUser,
         message: message,
+        channel: channel
       });
       $('#chat-input').val("");
     }
@@ -49,12 +51,15 @@ $(document).ready(() => {
   socket.on('new message', (msg) => {
     // console.log(`${msg.sender}: ${msg.message} 🎤`);
     // Append new message for all sockets to see
-    $('.message-container').append(`
-    <div class="message">
-      <p class="message-user">${msg.sender}: </p>
-      <p class="message-text">${msg.message}</p>
-    </div>
+    const currentChannel = $('.channel-current').text();
+    if (currentChannel == msg.channel) {
+      $('.message-container').append(`
+      <div class="message">
+        <p class="message-user">${msg.sender}: </p>
+        <p class="message-text">${msg.message}</p>
+      </div>
     `);
+    }
   });
 
   socket.on('get online users', (onlineUsers) => {

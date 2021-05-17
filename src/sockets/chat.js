@@ -9,8 +9,9 @@ event_handlers = (io, socket, onlineUsers, channels) => {
 
   socket.on('new message', (msg) => {
     // console.log(`${msg.sender}: ${msg.message} 🎤`);
-    // Emit `new message` event to clients
-    io.emit('new message', msg);
+    channels[msg.channel].push({ sender: msg.sender, message: msg.message });
+    // Emit `new message` event to clients in `msg.channel`
+    io.to(msg.channel).emit('new message', msg);
   });
 
   socket.on('get online users', () => {
