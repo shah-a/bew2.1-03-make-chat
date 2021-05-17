@@ -18,9 +18,10 @@ app.get('/', (req, res) => {
   res.render('home');
 })
 
+const onlineUsers = {};
 io.on("connection", (socket) => {
   // console.log("🔌 New user connected! 🔌");
-  require('./sockets/chat')(io, socket);
+  require('./sockets/chat')(io, socket, onlineUsers);
 })
 
 server.listen('3000', () => {

@@ -1,5 +1,6 @@
 $(document).ready(() => {
   const socket = io.connect();
+  socket.emit('get online users');
 
   let currentUser;
 
@@ -44,6 +45,19 @@ $(document).ready(() => {
       <p class="message-user">${msg.sender}: </p>
       <p class="message-text">${msg.message}</p>
     </div>
-  `);
+    `);
+  });
+
+  socket.on('get online users', (onlineUsers) => {
+    for (username in onlineUsers) {
+      $('.users-online').append(`<div class="user-online">${username}</div>`);
+    }
+  });
+
+  socket.on('user has left', (onlineUsers) => {
+    $('.users-online').empty();
+    for (username in onlineUsers) {
+      $('.users-online').append(`<div class="user-online">${username}</div>`);
+    }
   });
 });
