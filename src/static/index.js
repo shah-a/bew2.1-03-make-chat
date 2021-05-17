@@ -1,6 +1,7 @@
 $(document).ready(() => {
   const socket = io.connect();
   socket.emit('get online users');
+  socket.emit('get existing channels');
 
   // Set "General" as default channel, and enable channel-switching
   socket.emit('user changed channel', 'General');
@@ -59,7 +60,7 @@ $(document).ready(() => {
     // console.log(`${msg.sender}: ${msg.message} 🎤`);
     // Append new message for all sockets to see
     const currentChannel = $('.channel-current').text();
-    if (currentChannel == msg.channel) {
+    if (currentChannel === msg.channel) {
       $('.message-container').append(`
       <div class="message">
         <p class="message-user">${msg.sender}: </p>
@@ -72,6 +73,15 @@ $(document).ready(() => {
   socket.on('get online users', (onlineUsers) => {
     for (username in onlineUsers) {
       $('.users-online').append(`<div class="user-online">${username}</div>`);
+    }
+  });
+
+  socket.on('get existing channels', (channels) => {
+    for (channel in channels) {
+      if (channel === "General") {
+        continue;
+      }
+      $('.channels').append(`<div class="channel">${channel}</div>`);
     }
   });
 

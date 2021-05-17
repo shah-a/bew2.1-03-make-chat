@@ -15,8 +15,13 @@ event_handlers = (io, socket, onlineUsers, channels) => {
   });
 
   socket.on('get online users', () => {
-    // Emit `get online users` event to clients
-    io.emit('get online users', onlineUsers);
+    // Emit `get online users` event to the new client
+    socket.emit('get online users', onlineUsers);
+  });
+
+  socket.on('get existing channels', () => {
+    // Emit `get existing channels` event to the new client
+    socket.emit('get existing channels', channels);
   });
 
   socket.on('disconnect', () => {
