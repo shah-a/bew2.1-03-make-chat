@@ -30,6 +30,15 @@ $(document).ready(() => {
     }
   });
 
+  $('#new-channel-btn').click(() => {
+    const newChannel = $('#new-channel-input').val();
+    if (newChannel.length > 0) {
+      // Emit `new channel` event to the server
+      socket.emit('new channel', newChannel);
+      $('#new-channel-input').val("");
+    }
+  });
+
   // Socket listeners
   socket.on('new user', (username) => {
     // console.log(`${username} has joined the chat! ✋`);

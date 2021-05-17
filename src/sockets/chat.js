@@ -1,4 +1,4 @@
-module.exports = (io, socket, onlineUsers) => {
+event_handlers = (io, socket, onlineUsers) => {
   socket.on('new user', (username) => {
     // console.log(`${username} has joined the chat! ✋`);
     onlineUsers[username] = socket.id;
@@ -19,4 +19,10 @@ module.exports = (io, socket, onlineUsers) => {
     delete onlineUsers[socket.username];
     io.emit('user has left', onlineUsers);
   });
+
+  socket.on('new channel', (newChannel) => {
+    // console.log(`New channel: ${newChannel}! 📺`);
+  });
 };
+
+module.exports = event_handlers;
